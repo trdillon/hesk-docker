@@ -2586,6 +2586,25 @@ class mime_parser_class
 			else
 				$results['Subject'] = $message['Headers']['subject:'];
 		}
+		if(IsSet($message['Headers']['x-hesk-tracking_id:']))
+		{
+			$results['X-Hesk-Tracking_ID'] = $message['Headers']['x-hesk-tracking_id:'];
+		}
+
+        if(
+            (IsSet($message['Headers']['x-priority:']) &&
+                (
+                    $message['Headers']['x-priority:'] == 1 ||
+                    stripos($message['Headers']['x-priority:'], 'high') !== false
+                )
+            ) ||
+            (IsSet($message['Headers']['importance:']) && strtolower($message['Headers']['importance:']) == "high") ||
+            (IsSet($message['Headers']['x-msmail-priority:']) && strtolower($message['Headers']['x-msmail-priority:']) == "high")
+        )
+        {
+            $results['X-Priority'] = "high";
+        }
+
 		if(IsSet($message['Headers']['date:']))
 		{
 			if(IsSet($message['DecodedHeaders']['date:'])
