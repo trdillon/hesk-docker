@@ -1,25 +1,54 @@
+# This is an example docker-compose file for running HESK with MariaDB. It is not fully tested as
+# I don't use docker-compose for my own deployments. It is only meant to give you an idea of how to set yours up.
+# Use at your own risk.
 ---
 version: "3"
 services:
-  db:
-    image: mariadb:11.2
-    volumes:
-      - db_data:/var/lib/mysql
+  mariadb:
+    # Prod: Do not use latest tag in production.
+    image: mariadb:latest
     restart: always
     environment:
-      MARIADB_RANDOM_ROOT_PASSWORD: yes
+      # Prod: Change the root password before deploying.
+      MARIADB_ROOT_PASSWORD: root
       MARIADB_DATABASE: hesk
       MARIADB_USER: hesk
-      # Please change the password before deploying.
+      # Prod: Change the password before deploying.
       MARIADB_PASSWORD: hesk
-    
-  wordpress:
+    volumes:
+      - mariadb_data:/var/lib/mysql
+
+  hesk:
     depends_on:
-      - db
-    image: ghcr.io/luketainton/hesk:latest
+      - mariadb
+    # Prod: Do not use latest tag in production.
+    image: ghcr.io/trdillon/hesk:latest
+    restart: always
+    environment:
+      HESK_DB_HOST: mariadb
+      HESK_DB_NAME: hesk
+      HESK_DB_USER: hesk
+      # Prod: Change the password before deploying.
+      HESK_DB_PASS: hesk
+      # Add any additional settings you want to preset here.
+      # Check the HESK documentation for more information.
+      # NOTE: Not all settings have been tested. Use at your own risk.
+      # Email
+      # HESK_SMTP_HOST_NAME: smtp.example.com
+      # HESK_SMTP_HOST_PORT: 587
+      # HESK_SMTP_USER: postmaster@example.com
+      # HESK_SMTP_PASSWORD: password
+      # HESK_IMAP_HOST_NAME: imap.example.com
+      # HESK_IMAP_HOST_PORT: 993
+      # HESK_IMAP_USER: support@example.com
+      # HESK_IMAP_PASSWORD: password
+      # Security
+      # HESK_URL_KEY: ChangeMe
+      # HESK_FORCE_SSL: 1
+      # HESK_REQUIRE_MFA: 1
     ports:
       - "80:80"
-    restart: always
+
 volumes:
-  db_data: {}
+  mariadb_data: {}
 ...
