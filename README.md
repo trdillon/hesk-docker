@@ -1,14 +1,42 @@
 # hesk-docker
-HESK help desk, but in a Docker container.
+
+Docker container for the HESK help desk v3.4.5 (2024-06-09).
 
 ## Dependencies
-- You will need a MySQL/MariaDB database. This image does not include a database server so please deploy one before installing.
+
+- MySQL/MariaDB instance to connect to
 
 ## How to use
-*An example Docker Compose file is included in this repository.*
 
-1. See [this page](https://github.com/luketainton/hesk-docker/pkgs/container/hesk) for the latest version.
-2. Pull the version of the image that you want (e.g. latest): `docker pull ghcr.io/luketainton/hesk:latest`.
-3. Run the container: `docker run -p 127.0.0.1:80:80 ghcr.io/luketainton/hesk:latest`.
-4. Open your web browser to http://127.0.0.1/install (change IP/hostname for what you used in the last step).
-5. Follow the instructions to install your HESK instance.
+### Docker Compose
+
+There is an example `docker-compose.yml` file in the repository you can use to get started.
+
+### HESK Settings
+
+This container uses environment variables to configure the `hesk_settings.inc.php` file. This to allow more
+flexibility in the configuration and deployment of the container.
+
+All settings should be
+prefixed with `HESK_` and be in uppercase. For example, the `hesk_settings.inc.php` setting `$hesk_settings['db_host']` would be set as `HESK_DB_HOST`.
+
+All settings are optional and have default values.
+
+### Updating HESK
+
+There's no guarantee that this container will work with future versions of HESK. Update at your own risk and ensure
+you have a backup of your database.
+
+### Backing up
+
+A simple way to perform a backup of the database is to use `mariadb-dump` on the DB container and commit that file to a repository or save in storage. You can write a shell script to automate this process and run it as a cron job.
+
+## About
+
+This is a fork of https://github.com/luketainton/hesk-docker.
+
+I've just updated the HESK version and modified the `hesk_settings.inc.php` file to allow the use of environment variables for everything.
+
+##
+
+**Support HESK by [buying a licence](https://www.hesk.com/buy.php).**

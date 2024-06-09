@@ -5,15 +5,15 @@
 version: "3"
 services:
   mariadb:
-    # Prod: Do not use latest tag in production.
+    # TODO: Do not use latest tag in production.
     image: mariadb:latest
     restart: always
     environment:
-      # Prod: Change the root password before deploying.
+      # TODO: Change the root password before deploying.
       MARIADB_ROOT_PASSWORD: root
       MARIADB_DATABASE: hesk
       MARIADB_USER: hesk
-      # Prod: Change the password before deploying.
+      # TODO: Change the password before deploying.
       MARIADB_PASSWORD: hesk
     volumes:
       - mariadb_data:/var/lib/mysql
@@ -21,14 +21,14 @@ services:
   hesk:
     depends_on:
       - mariadb
-    # Prod: Do not use latest tag in production.
+    # TODO: Do not use latest tag in production.
     image: ghcr.io/trdillon/hesk:latest
     restart: always
     environment:
       HESK_DB_HOST: mariadb
       HESK_DB_NAME: hesk
       HESK_DB_USER: hesk
-      # Prod: Change the password before deploying.
+      # TODO: Change the password before deploying.
       HESK_DB_PASS: hesk
       # Add any additional settings you want to preset here.
       # Check the HESK documentation for more information.
