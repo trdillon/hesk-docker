@@ -1,6 +1,6 @@
 FROM php:apache
-LABEL maintainer="Luke Tainton <luke@tainton.uk>"
-LABEL org.opencontainers.image.source="https://github.com/luketainton/hesk-docker"
+LABEL maintainer="Tim Dillon <tim@tim.jp.net>"
+LABEL org.opencontainers.image.source="https://github.com/trdillon/hesk-docker"
 COPY --chown=www-data:www-data hesk /srv
 COPY vhost.conf /etc/apache2/sites-enabled/000-default.conf
 RUN apt-get update && \

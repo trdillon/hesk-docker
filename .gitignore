@@ -1,0 +1,19 @@
+### IDE ###
+
+## JetBrains ##
+.idea/
+*.iml
+ProjectSettings/RiderScriptEditorPersistedState.asset
+
+## Visual Studio ##
+.vs/
+.vscode/
+.vsconfig
+
+## Xcode ##
+# User settings
+xcuserdata/
+
+# Xcode 8 and earlier
+*.xcscmblueprint
+*.xccheckout
